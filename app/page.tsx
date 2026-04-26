@@ -155,16 +155,16 @@ function ProductCard({ p, qty, onAdd, onUpdate, nav }) {
       <div style={{ position:"relative",background:"#F8FAFC",borderRadius:11,aspectRatio:"1",overflow:"hidden",marginBottom:9 }}>
         {d > 0 && <div style={{ position:"absolute",top:6,left:6,background:EM,color:"#fff",fontSize:9,fontWeight:800,padding:"2px 6px",borderRadius:6,zIndex:1 }}>{d}% OFF</div>}
         <img src={p.img} alt={p.name} loading="lazy" className="bm-img"
-          style={{ width:"100%",height:"100%",objectFit:"cover" }}
+          style={{ position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover" }}
           onError={e=>{e.target.style.display="none";e.target.parentElement.style.background="#E2E8F0";}} />
       </div>
       <div style={{ flex:1,display:"flex",flexDirection:"column" }}>
-        <div style={{ fontWeight:700,fontSize:12,lineHeight:1.3,marginBottom:3,overflow:"hidden",display:"-webkit-box",WebkitLineClamp:2,WebkitBoxOrient:"vertical" }}>{p.name}</div>
-        <div style={{ fontSize:11,color:"#94A3B8",marginBottom:8 }}>{p.w}</div>
+        <div style={{ fontWeight:700,fontSize:13,lineHeight:1.3,marginBottom:3,overflow:"hidden",display:"-webkit-box",WebkitLineClamp:2,WebkitBoxOrient:"vertical" }}>{p.name}</div>
+        <div style={{ fontSize:12,color:"#94A3B8",marginBottom:8 }}>{p.w}</div>
         <div style={{ display:"flex",justifyContent:"space-between",alignItems:"flex-end",gap:4,marginTop:"auto" }}>
           <div>
-            <div style={{ fontWeight:800,fontSize:14,color:"#0F172A" }}>{Rs(p.price)}</div>
-            {p.mrp > p.price && <div style={{ fontSize:10,color:"#94A3B8",textDecoration:"line-through" }}>{Rs(p.mrp)}</div>}
+            <div style={{ fontWeight:800,fontSize:15,color:"#0F172A" }}>{Rs(p.price)}</div>
+            {p.mrp > p.price && <div style={{ fontSize:11,color:"#94A3B8",textDecoration:"line-through" }}>{Rs(p.mrp)}</div>}
           </div>
           <div onClick={e=>e.stopPropagation()}>
             {qty > 0
@@ -202,7 +202,7 @@ function ProductRow({ title, sub, prods, cart, onAdd, onUpd, nav }) {
       </div>
       <div ref={ref} className="bm-no-scroll" style={{ display:"flex",gap:10,overflowX:"auto",scrollSnapType:"x mandatory",paddingBottom:4 }}>
         {prods.map(p => (
-          <div key={p.id} style={{ flexShrink:0,width:158,scrollSnapAlign:"start" }}>
+          <div key={p.id} style={{ flexShrink:0,width:"44vw",maxWidth:200,scrollSnapAlign:"start" }}>
             <ProductCard p={p} qty={qty(p.id)} onAdd={()=>onAdd(p)} onUpdate={q=>onUpd(p.id,q)} nav={nav} />
           </div>
         ))}
@@ -1038,7 +1038,7 @@ export default function BMartApp() {
   const pp = { nav, cart, onAdd:addToCart, onUpd:updateQty, user, setUser };
 
   return (
-    <div style={{ position:"relative",height:780,overflow:"hidden",display:"flex",flexDirection:"column",background:"#F8FAFC",fontFamily:"system-ui,-apple-system,sans-serif",borderRadius:12 }}>
+    <div style={{ position:"relative",height:"100dvh",overflow:"hidden",display:"flex",flexDirection:"column",background:"#F8FAFC",fontFamily:"system-ui,-apple-system,sans-serif" }}>
       <style>{CSS}</style>
       <Header {...pp} setCartOpen={setCartOpen} goBack={goBack} canGoBack={history.length>0} />
 
