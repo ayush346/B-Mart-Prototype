@@ -74,12 +74,10 @@ const CATS = [
 ];
 
 const PRODS = [
-  { id:"p1",  name:"Fresh Tomatoes",         w:"500g",  price:29,    mrp:40,    img:U("1546069901-ba9599a7e63c"), cat:"fruits-veg", subcat:"vegetables", brand:"Farm Fresh",    r:4.5 },
   { id:"p4",  name:"Salted Butter",          w:"100g",  price:55,    mrp:60,    img:U("1589985270826-4b7bb135bc9d"),cat:"dairy",       brand:"Amul",          r:4.6 },
   { id:"p5",  name:"Farm Fresh Eggs",        w:"6 pcs", price:72,    mrp:80,    img:U("1582722872445-44dc5f7e3c8f"),cat:"dairy",       brand:"Country Farm",  r:4.4 },
   { id:"p9",  name:"Sunflower Cooking Oil",  w:"1L",    price:145,   mrp:170,   img:U("1474979266404-7eaacbcd87c5"),cat:"masala",      brand:"Fortune",       r:4.4 },
   { id:"p13", name:"Maggi 2-Minute Noodles", w:"70g",   price:14,    mrp:14,    img:U("1569050467447-ce54b3bbc37d"),cat:"instant",     brand:"Nestlé",        r:4.5 },
-  { id:"p16", name:"Royal Gala Apples",      w:"4 pcs", price:99,    mrp:130,   img:U("1619546813926-a78fa6372cd2"),cat:"fruits-veg", subcat:"fruits",     brand:"Farm Fresh",    r:4.5 },
   { id:"p18", name:"Oreo Original Cookies",  w:"120g",  price:35,    mrp:40,    img:U("1499195333224-3ce974eecb47"),cat:"biscuits",    brand:"Mondelez",      r:4.6 },
   { id:"p19", name:"Red Bull Energy Drink",  w:"250ml", price:115,   mrp:125,   img:U("1551024601-bec78aea704b"), cat:"beverages",    brand:"Red Bull",      r:4.4 },
   { id:"p22", name:"Tropicana Orange Juice", w:"1L",    price:125,   mrp:145,   img:U("1534353436294-0dbd4bdac845"),cat:"beverages",   brand:"PepsiCo",       r:4.2 },
