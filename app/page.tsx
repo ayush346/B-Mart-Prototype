@@ -74,10 +74,10 @@ const CATS = [
 ];
 
 const PRODS = [
-  { id:"f1",  name:"Apple",  w:"1kg",   price:120, mrp:150, img:"/apple.jpg",  cat:"fruits-veg", subcat:"fruits", brand:"Farm Fresh", r:4.5 },
-  { id:"f2",  name:"Orange", w:"1kg",   price:80,  mrp:100, img:"/orange.jpg", cat:"fruits-veg", subcat:"fruits", brand:"Farm Fresh", r:4.4 },
-  { id:"f3",  name:"Mango",  w:"1kg",   price:150, mrp:180, img:"/mango.jpg",  cat:"fruits-veg", subcat:"fruits", brand:"Farm Fresh", r:4.7 },
-  { id:"f4",  name:"Cherry", w:"250g",  price:199, mrp:250, img:"/cherry.jpg", cat:"fruits-veg", subcat:"fruits", brand:"Farm Fresh", r:4.6 },
+  { id:"f1",  name:"Apple",  w:"0.5kg", price:60,  mrp:80,  img:"/apple.jpg",  cat:"fruits-veg", subcat:"fruits", brand:"Farm Fresh", r:4.5 },
+  { id:"f2",  name:"Orange", w:"0.5kg", price:35,  mrp:45,  img:"/orange.jpg", cat:"fruits-veg", subcat:"fruits", brand:"Farm Fresh", r:4.4 },
+  { id:"f3",  name:"Mango",  w:"0.5kg", price:55,  mrp:70,  img:"/mango.jpg",  cat:"fruits-veg", subcat:"fruits", brand:"Farm Fresh", r:4.7 },
+  { id:"f4",  name:"Cherry", w:"0.5kg", price:220, mrp:280, img:"/cherry.jpg", cat:"fruits-veg", subcat:"fruits", brand:"Farm Fresh", r:4.6 },
   { id:"p4",  name:"Salted Butter",          w:"100g",  price:55,    mrp:60,    img:U("1589985270826-4b7bb135bc9d"),cat:"dairy",       brand:"Amul",          r:4.6 },
   { id:"p5",  name:"Farm Fresh Eggs",        w:"6 pcs", price:72,    mrp:80,    img:U("1582722872445-44dc5f7e3c8f"),cat:"dairy",       brand:"Country Farm",  r:4.4 },
   { id:"p9",  name:"Sunflower Cooking Oil",  w:"1L",    price:145,   mrp:170,   img:U("1474979266404-7eaacbcd87c5"),cat:"masala",      brand:"Fortune",       r:4.4 },
@@ -408,7 +408,7 @@ function CartDrawer({ open, onClose, cart, onUpd, nav, cartTotal }) {
                   </div>
                   <div style={{ flex:1,minWidth:0 }}>
                     <div style={{ fontWeight:600,fontSize:12,lineHeight:1.3,marginBottom:2,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap" }}>{item.name}</div>
-                    <div style={{ fontSize:10,color:"#94A3B8",marginBottom:4 }}>{item.w}</div>
+                    <div style={{ fontSize:10,color:"#94A3B8",marginBottom:4 }}>{item.subcat==="fruits" ? (item.qty*0.5)+"kg" : item.w}</div>
                     <div style={{ fontWeight:800,fontSize:13,color:EM }}>{Rs(item.price*item.qty)}</div>
                   </div>
                   <div style={{ display:"flex",flexDirection:"column",alignItems:"flex-end",gap:7 }}>
@@ -787,7 +787,7 @@ function OrderPage({ orderId, orders, nav }) {
             <img src={item.img} alt={item.name} style={{ width:40,height:40,borderRadius:8,objectFit:"cover",flexShrink:0 }} onError={e=>e.target.style.display="none"} />
             <div style={{ flex:1 }}>
               <div style={{ fontWeight:600,fontSize:13 }}>{item.name}</div>
-              <div style={{ fontSize:11,color:"#94A3B8" }}>{item.w} ×{item.qty}</div>
+              <div style={{ fontSize:11,color:"#94A3B8" }}>{item.subcat==="fruits" ? (item.qty*0.5)+"kg total" : item.w+" ×"+item.qty}</div>
             </div>
             <div style={{ fontWeight:800,color:EM,fontSize:13 }}>{Rs(item.price*item.qty)}</div>
           </div>
@@ -1080,7 +1080,7 @@ export default function BMartApp() {
                   </div>
                   <div style={{ flex:1,minWidth:0 }}>
                     <div style={{ fontWeight:600,fontSize:12,lineHeight:1.3,marginBottom:2,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap" }}>{item.name}</div>
-                    <div style={{ fontSize:10,color:"#94A3B8",marginBottom:4 }}>{item.w}</div>
+                    <div style={{ fontSize:10,color:"#94A3B8",marginBottom:4 }}>{item.subcat==="fruits" ? (item.qty*0.5)+"kg" : item.w}</div>
                     <div style={{ fontWeight:800,fontSize:13,color:EM }}>{Rs(item.price*item.qty)}</div>
                   </div>
                   <div style={{ display:"flex",flexDirection:"column",alignItems:"flex-end",gap:7 }}>
