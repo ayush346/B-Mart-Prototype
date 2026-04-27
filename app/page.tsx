@@ -478,74 +478,23 @@ function SearchPage({ q, nav, cart, onAdd, onUpd }) {
 
 function CategoryPage({ slug, nav, cart, onAdd, onUpd }) {
   const cat = CATS.find(c=>c.slug===slug)||CATS[0];
-  const [sort,setSort] = useState("featured");
-  const [maxP,setMaxP] = useState("");
-  const [minR,setMinR] = useState(0);
-  const [brand,setBrand] = useState("");
-  let prods = PRODS.filter(p=>p.cat===slug);
-  const brands = [...new Set(prods.map(p=>p.brand))];
-  if(brand) prods=prods.filter(p=>p.brand===brand);
-  if(maxP)  prods=prods.filter(p=>p.price<=Number(maxP));
-  if(minR>0) prods=prods.filter(p=>p.r>=minR);
-  if(sort==="price-asc")  prods=[...prods].sort((a,b)=>a.price-b.price);
-  if(sort==="price-desc") prods=[...prods].sort((a,b)=>b.price-a.price);
-  if(sort==="rating")     prods=[...prods].sort((a,b)=>b.r-a.r);
+  const prods = PRODS.filter(p=>p.cat===slug);
   const qty = id=>cart.find(i=>i.id===id)?.qty||0;
-  const inp = { border:"1px solid #E2E8F0",borderRadius:9,padding:"7px 10px",fontSize:12,width:"100%",fontFamily:"inherit",outline:"none" };
-
   return (
     <div style={{ padding:"20px 16px" }}>
       <Breadcrumb crumbs={[{label:"Home",action:()=>nav({type:"home"})},{label:cat.name}]} nav={nav} />
-      <div style={{ display:"flex",gap:16 }}>
-        {/* Filter sidebar */}
-        <div style={{ width:168,flexShrink:0 }}>
-          <div style={{ background:"#fff",borderRadius:14,border:"1px solid #E2E8F0",padding:16,position:"sticky",top:8 }}>
-            <div style={{ fontWeight:700,fontSize:14,marginBottom:14,color:"#0F172A" }}>Filters</div>
-            {[
-              { label:"Sort", el:<select value={sort} onChange={e=>setSort(e.target.value)} style={inp}>
-                  <option value="featured">Featured</option>
-                  <option value="price-asc">Price ↑</option>
-                  <option value="price-desc">Price ↓</option>
-                  <option value="rating">Top Rated</option>
-                </select> },
-              { label:"Brand", el:<select value={brand} onChange={e=>setBrand(e.target.value)} style={inp}>
-                  <option value="">All Brands</option>
-                  {brands.map(b=><option key={b} value={b}>{b}</option>)}
-                </select> },
-              { label:"Max Price (₹)", el:<input type="number" value={maxP} onChange={e=>setMaxP(e.target.value)} placeholder="e.g. 200" style={inp} /> },
-            ].map(({label,el})=>(
-              <div key={label} style={{ marginBottom:12 }}>
-                <div style={{ fontSize:10,fontWeight:700,color:"#94A3B8",textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:5 }}>{label}</div>
-                {el}
-              </div>
-            ))}
-            <div>
-              <div style={{ fontSize:10,fontWeight:700,color:"#94A3B8",textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:7 }}>Min Rating</div>
-              <div style={{ display:"flex",flexWrap:"wrap",gap:5 }}>
-                {[["Any",0],["3+",3],["4+",4],["4.5+",4.5]].map(([l,v])=>(
-                  <button key={l} onClick={()=>setMinR(v)}
-                    style={{ border:`1.5px solid ${minR===v?EM:"#E2E8F0"}`,background:minR===v?EM:"#fff",color:minR===v?"#fff":"#64748B",borderRadius:14,padding:"3px 10px",fontSize:11,fontWeight:700,cursor:"pointer" }}>{l}</button>
-                ))}
-              </div>
-            </div>
-          </div>
+      <h1 style={{ fontWeight:800,fontSize:22,margin:"0 0 4px" }}>{cat.name}</h1>
+      <p style={{ fontSize:12,color:"#64748B",margin:"0 0 16px" }}>{prods.length} products</p>
+      {prods.length===0 ? (
+        <div style={{ textAlign:"center",padding:"48px 0",color:"#94A3B8" }}>
+          <div style={{ fontSize:36,marginBottom:10 }}>🛒</div>
+          <div style={{ fontWeight:700,fontSize:15 }}>No products in this category yet</div>
         </div>
-        {/* Products */}
-        <div style={{ flex:1 }}>
-          <h1 style={{ fontWeight:800,fontSize:22,margin:"0 0 4px" }}>{cat.name}</h1>
-          <p style={{ fontSize:12,color:"#64748B",margin:"0 0 16px" }}>{prods.length} products</p>
-          {prods.length===0 ? (
-            <div style={{ textAlign:"center",padding:"48px 0",color:"#94A3B8" }}>
-              <div style={{ fontSize:36,marginBottom:10 }}>🔍</div>
-              <div style={{ fontWeight:700,fontSize:15 }}>No products match your filters</div>
-            </div>
-          ) : (
-            <div style={{ display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(148px,1fr))",gap:12 }}>
-              {prods.map(p=><ProductCard key={p.id} p={p} qty={qty(p.id)} onAdd={()=>onAdd(p)} onUpdate={qv=>onUpd(p.id,qv)} nav={nav} />)}
-            </div>
-          )}
+      ) : (
+        <div style={{ display:"grid",gridTemplateColumns:"repeat(2,1fr)",gap:12 }}>
+          {prods.map(p=><ProductCard key={p.id} p={p} qty={qty(p.id)} onAdd={()=>onAdd(p)} onUpdate={qv=>onUpd(p.id,qv)} nav={nav} />)}
         </div>
-      </div>
+      )}
     </div>
   );
 }
