@@ -89,7 +89,7 @@ const PRODS = [
 const BANNERS = [
   { title:"Fresh Groceries\nDelivered in 10 Min", sub:"Shop from 5000+ products — vegetables, dairy, snacks & more.", img:"/hero.jpg", cta:"Shop Now" },
   { title:"Start Your Morning\nRight with B Mart", sub:"Fresh dairy, eggs, bread — all delivered before breakfast.",   img:"/morning.jpg", cta:"Order Breakfast" },
-  { title:"Snack Time?\nWe've Got You.",            sub:"100+ snack brands, instant delivery, always fresh.",          img:IMGS.banner3, cta:"Browse Snacks" },
+  { title:"Snack Time?\nWe've Got You.",            sub:"100+ snack brands, instant delivery, always fresh.",          img:"/snacks.jpg", cta:"Browse Snacks" },
 ];
 
 const CSS = `
