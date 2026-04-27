@@ -74,6 +74,10 @@ const CATS = [
 ];
 
 const PRODS = [
+  { id:"f1",  name:"Apple",  w:"1kg",   price:120, mrp:150, img:"/apple.jpg",  cat:"fruits-veg", subcat:"fruits", brand:"Farm Fresh", r:4.5 },
+  { id:"f2",  name:"Orange", w:"1kg",   price:80,  mrp:100, img:"/orange.jpg", cat:"fruits-veg", subcat:"fruits", brand:"Farm Fresh", r:4.4 },
+  { id:"f3",  name:"Mango",  w:"1kg",   price:150, mrp:180, img:"/mango.jpg",  cat:"fruits-veg", subcat:"fruits", brand:"Farm Fresh", r:4.7 },
+  { id:"f4",  name:"Cherry", w:"250g",  price:199, mrp:250, img:"/cherry.jpg", cat:"fruits-veg", subcat:"fruits", brand:"Farm Fresh", r:4.6 },
   { id:"p4",  name:"Salted Butter",          w:"100g",  price:55,    mrp:60,    img:U("1589985270826-4b7bb135bc9d"),cat:"dairy",       brand:"Amul",          r:4.6 },
   { id:"p5",  name:"Farm Fresh Eggs",        w:"6 pcs", price:72,    mrp:80,    img:U("1582722872445-44dc5f7e3c8f"),cat:"dairy",       brand:"Country Farm",  r:4.4 },
   { id:"p9",  name:"Sunflower Cooking Oil",  w:"1L",    price:145,   mrp:170,   img:U("1474979266404-7eaacbcd87c5"),cat:"masala",      brand:"Fortune",       r:4.4 },
