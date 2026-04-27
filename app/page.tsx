@@ -74,12 +74,12 @@ const CATS = [
 ];
 
 const PRODS = [
-  { id:"p1",  name:"Fresh Tomatoes",         w:"500g",  price:29,    mrp:40,    img:U("1546069901-ba9599a7e63c"), cat:"fruits-veg",   brand:"Farm Fresh",    r:4.5 },
+  { id:"p1",  name:"Fresh Tomatoes",         w:"500g",  price:29,    mrp:40,    img:U("1546069901-ba9599a7e63c"), cat:"fruits-veg", subcat:"vegetables", brand:"Farm Fresh",    r:4.5 },
   { id:"p4",  name:"Salted Butter",          w:"100g",  price:55,    mrp:60,    img:U("1589985270826-4b7bb135bc9d"),cat:"dairy",       brand:"Amul",          r:4.6 },
   { id:"p5",  name:"Farm Fresh Eggs",        w:"6 pcs", price:72,    mrp:80,    img:U("1582722872445-44dc5f7e3c8f"),cat:"dairy",       brand:"Country Farm",  r:4.4 },
   { id:"p9",  name:"Sunflower Cooking Oil",  w:"1L",    price:145,   mrp:170,   img:U("1474979266404-7eaacbcd87c5"),cat:"masala",      brand:"Fortune",       r:4.4 },
   { id:"p13", name:"Maggi 2-Minute Noodles", w:"70g",   price:14,    mrp:14,    img:U("1569050467447-ce54b3bbc37d"),cat:"instant",     brand:"Nestlé",        r:4.5 },
-  { id:"p16", name:"Royal Gala Apples",      w:"4 pcs", price:99,    mrp:130,   img:U("1619546813926-a78fa6372cd2"),cat:"fruits-veg",  brand:"Farm Fresh",    r:4.5 },
+  { id:"p16", name:"Royal Gala Apples",      w:"4 pcs", price:99,    mrp:130,   img:U("1619546813926-a78fa6372cd2"),cat:"fruits-veg", subcat:"fruits",     brand:"Farm Fresh",    r:4.5 },
   { id:"p18", name:"Oreo Original Cookies",  w:"120g",  price:35,    mrp:40,    img:U("1499195333224-3ce974eecb47"),cat:"biscuits",    brand:"Mondelez",      r:4.6 },
   { id:"p19", name:"Red Bull Energy Drink",  w:"250ml", price:115,   mrp:125,   img:U("1551024601-bec78aea704b"), cat:"beverages",    brand:"Red Bull",      r:4.4 },
   { id:"p22", name:"Tropicana Orange Juice", w:"1L",    price:125,   mrp:145,   img:U("1534353436294-0dbd4bdac845"),cat:"beverages",   brand:"PepsiCo",       r:4.2 },
@@ -476,19 +476,66 @@ function SearchPage({ q, nav, cart, onAdd, onUpd }) {
   );
 }
 
-function CategoryPage({ slug, nav, cart, onAdd, onUpd }) {
+const SUBCATS = {
+  "fruits-veg": [
+    { key:"fruits",     label:"Fruits",     img:"/fruits.jpg",     desc:"Fresh seasonal fruits" },
+    { key:"vegetables", label:"Vegetables", img:"/vegetables.jpg", desc:"Farm fresh vegetables" },
+  ]
+};
+
+function SubcatCard({ sc, onClick }) {
+  return (
+    <div onClick={onClick} style={{ borderRadius:18,overflow:"hidden",cursor:"pointer",position:"relative",aspectRatio:"1",background:"#E2E8F0",boxShadow:"0 2px 12px rgba(0,0,0,.08)" }}>
+      <img src={sc.img} alt={sc.label}
+        style={{ position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover" }}
+        onError={e=>{e.target.style.display="none";}} />
+      <div style={{ position:"absolute",inset:0,background:"linear-gradient(to top,rgba(0,0,0,.6) 0%,transparent 55%)" }} />
+      <div style={{ position:"absolute",bottom:14,left:14,right:14 }}>
+        <div style={{ fontWeight:800,fontSize:18,color:"#fff",marginBottom:3 }}>{sc.label}</div>
+        <div style={{ fontSize:11,color:"rgba(255,255,255,.8)" }}>{sc.desc}</div>
+      </div>
+    </div>
+  );
+}
+
+function CategoryPage({ slug, sub, nav, cart, onAdd, onUpd }) {
   const cat = CATS.find(c=>c.slug===slug)||CATS[0];
-  const prods = PRODS.filter(p=>p.cat===slug);
+  const subcats = SUBCATS[slug];
   const qty = id=>cart.find(i=>i.id===id)?.qty||0;
+
+  // Show subcategory selector if subcats exist and none selected
+  if(subcats && !sub) {
+    return (
+      <div style={{ padding:"20px 16px" }}>
+        <Breadcrumb crumbs={[{label:"Home",action:()=>nav({type:"home"})},{label:cat.name}]} nav={nav} />
+        <h1 style={{ fontWeight:800,fontSize:22,margin:"0 0 4px",color:"#0F172A" }}>{cat.name}</h1>
+        <p style={{ fontSize:12,color:"#64748B",margin:"0 0 20px" }}>Choose a category</p>
+        <div style={{ display:"grid",gridTemplateColumns:"repeat(2,1fr)",gap:14 }}>
+          {subcats.map(sc=>(
+            <SubcatCard key={sc.key} sc={sc} onClick={()=>nav({type:"category",slug,sub:sc.key})} />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  const activeSubcat = subcats?.find(s=>s.key===sub);
+  const prods = PRODS.filter(p=>p.cat===slug && (!sub || p.subcat===sub));
+  const crumbs = [
+    {label:"Home",action:()=>nav({type:"home"})},
+    {label:cat.name,action:()=>nav({type:"category",slug})},
+    ...(activeSubcat?[{label:activeSubcat.label}]:[]),
+  ];
+
   return (
     <div style={{ padding:"20px 16px" }}>
-      <Breadcrumb crumbs={[{label:"Home",action:()=>nav({type:"home"})},{label:cat.name}]} nav={nav} />
-      <h1 style={{ fontWeight:800,fontSize:22,margin:"0 0 4px",color:"#0F172A" }}>{cat.name}</h1>
+      <Breadcrumb crumbs={crumbs} nav={nav} />
+      <h1 style={{ fontWeight:800,fontSize:22,margin:"0 0 4px",color:"#0F172A" }}>{activeSubcat?.label||cat.name}</h1>
       <p style={{ fontSize:12,color:"#64748B",margin:"0 0 16px" }}>{prods.length} products</p>
       {prods.length===0 ? (
         <div style={{ textAlign:"center",padding:"48px 0",color:"#94A3B8" }}>
           <div style={{ fontSize:36,marginBottom:10 }}>🛒</div>
-          <div style={{ fontWeight:700,fontSize:15 }}>No products in this category yet</div>
+          <div style={{ fontWeight:700,fontSize:15 }}>No products here yet</div>
         </div>
       ) : (
         <div style={{ display:"grid",gridTemplateColumns:"repeat(2,1fr)",gap:12 }}>
@@ -995,7 +1042,7 @@ export default function BMartApp() {
       <div ref={scrollRef} className="bm-no-scroll" style={{ flex:1,overflowY:"auto" }}>
         {page.type==="home"     && <HomePage      {...pp} />}
         {page.type==="login"    && <LoginPage     setUser={setUser} nav={nav} />}
-        {page.type==="category" && <CategoryPage  slug={page.slug} {...pp} />}
+        {page.type==="category" && <CategoryPage  slug={page.slug} sub={page.sub} {...pp} />}
         {page.type==="product"  && <ProductPage   id={page.id}     {...pp} />}
         {page.type==="search"   && <SearchPage    q={page.q}       {...pp} />}
         {page.type==="checkout" && <CheckoutPage  {...pp} cartTotal={cartTotal} onOrder={addOrder} />}
