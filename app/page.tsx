@@ -226,8 +226,8 @@ function HeroBanner({ nav }) {
       <img src={b.img} alt="Hero Banner" loading="lazy"
         style={{ width:"100%",height:"100%",objectFit:"cover",position:"absolute",inset:0 }}
         onError={e=>{e.target.style.display="none";e.target.parentElement.style.background=EM;}} />
-      <div style={{ position:"absolute",inset:0,background:"linear-gradient(135deg,rgba(6,78,59,.93),rgba(6,78,59,.68))" }} />
-      <div style={{ position:"absolute",inset:0,padding:"22px 28px",display:"flex",flexDirection:"column",justifyContent:"center" }}>
+      <div style={{ position:"absolute",inset:0,background:"linear-gradient(to top,rgba(0,0,0,.55) 0%,rgba(0,0,0,.1) 50%,transparent 100%)" }} />
+      <div style={{ position:"absolute",inset:0,padding:"22px 28px",display:"flex",flexDirection:"column",justifyContent:"flex-end" }}>
         <div className="bm-pulse" style={{ background:LM,color:"#14532D",fontSize:10,fontWeight:800,padding:"3px 10px",borderRadius:18,display:"inline-flex",alignItems:"center",gap:4,marginBottom:12,width:"fit-content" }}>⚡ 10 MIN DELIVERY</div>
         <h2 style={{ fontWeight:900,fontSize:26,color:"#fff",lineHeight:1.15,margin:"0 0 8px",whiteSpace:"pre-line" }}>{b.title}</h2>
         <p style={{ color:"rgba(255,255,255,.85)",fontSize:13,margin:"0 0 16px" }}>{b.sub}</p>
