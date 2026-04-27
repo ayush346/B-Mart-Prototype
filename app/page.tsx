@@ -385,7 +385,7 @@ function CartDrawer({ open, onClose, cart, onUpd, nav, cartTotal }) {
       {open && <div onClick={onClose} style={{ position:"absolute",inset:0,background:"rgba(0,0,0,.45)",zIndex:60 }} />}
       <div style={{ position:"absolute",top:0,right:0,bottom:0,width:"min(380px,100%)",background:"#fff",zIndex:61,transform:open?"translateX(0)":"translateX(100%)",transition:"transform 340ms cubic-bezier(.16,1,.3,1)",display:"flex",flexDirection:"column",boxShadow:"-8px 0 32px rgba(0,0,0,.15)" }}>
         <div style={{ padding:"16px 20px",borderBottom:"1px solid #F1F5F9",display:"flex",justifyContent:"space-between",alignItems:"center",flexShrink:0 }}>
-          <h3 style={{ fontWeight:800,fontSize:18,margin:0 }}>Your Cart</h3>
+          <h3 style={{ fontWeight:800,fontSize:18,margin:0,color:"#0F172A" }}>Your Cart</h3>
           <button onClick={onClose} aria-label="Close cart" style={{ width:30,height:30,borderRadius:"50%",border:"1px solid #E2E8F0",background:"#fff",cursor:"pointer",fontSize:15,display:"flex",alignItems:"center",justifyContent:"center" }}>✕</button>
         </div>
         {cart.length===0 ? (
@@ -483,7 +483,7 @@ function CategoryPage({ slug, nav, cart, onAdd, onUpd }) {
   return (
     <div style={{ padding:"20px 16px" }}>
       <Breadcrumb crumbs={[{label:"Home",action:()=>nav({type:"home"})},{label:cat.name}]} nav={nav} />
-      <h1 style={{ fontWeight:800,fontSize:22,margin:"0 0 4px" }}>{cat.name}</h1>
+      <h1 style={{ fontWeight:800,fontSize:22,margin:"0 0 4px",color:"#0F172A" }}>{cat.name}</h1>
       <p style={{ fontSize:12,color:"#64748B",margin:"0 0 16px" }}>{prods.length} products</p>
       {prods.length===0 ? (
         <div style={{ textAlign:"center",padding:"48px 0",color:"#94A3B8" }}>
@@ -560,7 +560,7 @@ function LoginPage({ setUser, nav }) {
     <div style={{ minHeight:500,display:"flex",alignItems:"center",justifyContent:"center",padding:24,background:"linear-gradient(135deg,#F0FDF4,#ECFDF5 50%,#fff)" }}>
       <div style={{ background:"#fff",borderRadius:22,boxShadow:"0 20px 60px rgba(0,0,0,.1)",padding:40,maxWidth:380,width:"100%",textAlign:"center" }}>
         <div style={{ width:60,height:60,background:EM,borderRadius:14,display:"flex",alignItems:"center",justifyContent:"center",margin:"0 auto 22px",color:LM,fontWeight:900,fontSize:30 }}>B</div>
-        <h1 style={{ fontWeight:900,fontSize:26,margin:"0 0 9px" }}>Welcome to B Mart</h1>
+        <h1 style={{ fontWeight:900,fontSize:26,margin:"0 0 9px",color:"#0F172A" }}>Welcome to B Mart</h1>
         <p style={{ color:"#64748B",fontSize:14,margin:"0 0 28px",lineHeight:1.6 }}>Sign in to track orders, save addresses, and reorder in one tap.</p>
         <button onClick={login} style={{ width:"100%",background:EM,color:"#fff",border:"none",borderRadius:22,padding:"14px 24px",fontWeight:700,fontSize:15,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",gap:10,marginBottom:18 }}>
           <span style={{ fontWeight:900,fontSize:18 }}>G</span> Continue with Google
@@ -599,7 +599,7 @@ function CheckoutPage({ cart, cartTotal, user, nav, onOrder }) {
 
   return (
     <div style={{ padding:"20px 16px" }}>
-      <h1 style={{ fontWeight:800,fontSize:22,margin:"0 0 20px" }}>Checkout</h1>
+      <h1 style={{ fontWeight:800,fontSize:22,margin:"0 0 20px",color:"#0F172A" }}>Checkout</h1>
       <div style={{ display:"flex",gap:16,flexWrap:"wrap" }}>
         <div style={{ flex:"1 1 340px" }}>
           {/* Address */}
@@ -767,7 +767,7 @@ function OrdersPage({ orders, nav, onAdd }) {
   );
   return (
     <div style={{ padding:"20px 16px" }}>
-      <h1 style={{ fontWeight:800,fontSize:22,margin:"0 0 20px" }}>My Orders</h1>
+      <h1 style={{ fontWeight:800,fontSize:22,margin:"0 0 20px",color:"#0F172A" }}>My Orders</h1>
       <div style={{ display:"flex",flexDirection:"column",gap:12 }}>
         {[...orders].reverse().map(order=>{
           const elapsed=(Date.now()-order.createdAt)/1000;
@@ -829,7 +829,7 @@ function AdminPage({ nav }) {
     <div style={{ padding:"20px 16px" }}>
       <div style={{ display:"flex",alignItems:"center",gap:10,marginBottom:22 }}>
         <span style={{ fontSize:22 }}>🛡</span>
-        <h1 style={{ fontWeight:800,fontSize:22,margin:0 }}>Admin Console</h1>
+        <h1 style={{ fontWeight:800,fontSize:22,margin:0,color:"#0F172A" }}>Admin Console</h1>
       </div>
       <div style={{ display:"flex",gap:2,marginBottom:22,borderBottom:"1px solid #E2E8F0" }}>
         {["dashboard","products","orders","users"].map(t=>(
@@ -1010,7 +1010,7 @@ export default function BMartApp() {
       {/* Cart Drawer */}
       <div style={{ position:"absolute",top:0,right:0,bottom:0,width:"min(380px,100%)",background:"#fff",zIndex:61,transform:cartOpen?"translateX(0)":"translateX(100%)",transition:"transform 340ms cubic-bezier(.16,1,.3,1)",display:"flex",flexDirection:"column",boxShadow:"-8px 0 32px rgba(0,0,0,.15)" }}>
         <div style={{ padding:"16px 20px",borderBottom:"1px solid #F1F5F9",display:"flex",justifyContent:"space-between",alignItems:"center",flexShrink:0 }}>
-          <h3 style={{ fontWeight:800,fontSize:18,margin:0 }}>Your Cart</h3>
+          <h3 style={{ fontWeight:800,fontSize:18,margin:0,color:"#0F172A" }}>Your Cart</h3>
           <button onClick={()=>setCartOpen(false)} aria-label="Close cart" style={{ width:30,height:30,borderRadius:"50%",border:"1px solid #E2E8F0",background:"#fff",cursor:"pointer",fontSize:15,display:"flex",alignItems:"center",justifyContent:"center" }}>✕</button>
         </div>
         {cart.length===0 ? (
