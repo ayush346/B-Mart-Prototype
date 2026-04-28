@@ -457,7 +457,7 @@ function CartDrawer({ open, onClose, cart, onUpd, nav, cartTotal }) {
 
 function HomePage({ nav, cart, onAdd, onUpd }) {
   const topPicks = PRODS.filter(p=>p.id==="s1"||p.id==="bv1");
-  const under99  = PRODS.filter(p=>p.price<100).slice(0,10);
+  const under99  = PRODS.filter(p=>p.id==="f3"||p.id==="f4");
   const deals    = PRODS.filter(p=>p.id==="bt1"||p.id==="bt2");
   return (
     <div style={{ padding:"20px 16px" }}>
