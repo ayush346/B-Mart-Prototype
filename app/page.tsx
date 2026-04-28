@@ -286,10 +286,9 @@ function CategoryGrid({ nav }) {
 
 // ── Header ─────────────────────────────────────────────────────────────
 
-function Header({ cart, setCartOpen, user, setUser, nav, goBack, canGoBack }) {
+function Header({ cart, setCartOpen, onMenuOpen, user, setUser, nav, goBack, canGoBack }) {
   const [q, setQ] = useState("");
   const [sugg, setSugg] = useState([]);
-  const [menuOpen, setMenuOpen] = useState(false);
   const debRef = useRef(null);
   const cartCount = cart.reduce((s,i)=>s+i.qty,0);
 
@@ -323,7 +322,7 @@ function Header({ cart, setCartOpen, user, setUser, nav, goBack, canGoBack }) {
           )}
         </button>
         {/* Hamburger */}
-        <button onClick={()=>setMenuOpen(true)} style={{ background:"none",border:"none",cursor:"pointer",padding:"6px",borderRadius:10,display:"flex",alignItems:"center",justifyContent:"center",color:"#0F172A" }}>
+        <button onClick={onMenuOpen} style={{ background:"none",border:"none",cursor:"pointer",padding:"6px",borderRadius:10,display:"flex",alignItems:"center",justifyContent:"center",color:"#0F172A" }}>
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
         </button>
       </div>
@@ -355,46 +354,6 @@ function Header({ cart, setCartOpen, user, setUser, nav, goBack, canGoBack }) {
           </div>
         )}
       </div>
-      {/* Side Menu Drawer */}
-      {menuOpen && (
-        <div style={{ position:"fixed",inset:0,zIndex:500,display:"flex",justifyContent:"flex-end" }}>
-          <div onClick={()=>setMenuOpen(false)} style={{ position:"absolute",inset:0,background:"rgba(0,0,0,.45)" }} />
-          <div style={{ position:"relative",width:285,background:"#fff",height:"100%",display:"flex",flexDirection:"column",boxShadow:"-4px 0 28px rgba(0,0,0,.18)" }}>
-            <div style={{ padding:"22px 20px 18px",background:EM,display:"flex",alignItems:"center",justifyContent:"space-between" }}>
-              <div style={{ display:"flex",alignItems:"center",gap:11 }}>
-                <div style={{ width:44,height:44,borderRadius:"50%",background:"rgba(255,255,255,.22)",display:"flex",alignItems:"center",justifyContent:"center",fontWeight:900,fontSize:22,color:"#fff" }}>B</div>
-                <div>
-                  <div style={{ fontWeight:800,fontSize:15,color:"#fff" }}>B Mart</div>
-                  <div style={{ fontSize:11,color:"rgba(255,255,255,.75)" }}>Grocery in 10 Min</div>
-                </div>
-              </div>
-              <button onClick={()=>setMenuOpen(false)} style={{ background:"rgba(255,255,255,.2)",border:"none",borderRadius:8,width:30,height:30,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",fontSize:17,fontWeight:700 }}>✕</button>
-            </div>
-            <div style={{ flex:1,overflowY:"auto",padding:"8px 0" }}>
-              {[
-                { icon:"👤", label:"User Profile",  sub:"Name, address & contact", fn:()=>{nav({type:"profile"});setMenuOpen(false);} },
-                { icon:"📦", label:"Order History",  sub:"Track your past orders",  fn:()=>{nav({type:"orders"});setMenuOpen(false);} },
-                { icon:"🛡",  label:"Admin Panel",   sub:"B Mart owner dashboard",  fn:()=>{nav({type:"admin"});setMenuOpen(false);} },
-              ].map((item,i)=>(
-                <div key={i} onClick={item.fn}
-                  style={{ display:"flex",alignItems:"center",gap:14,padding:"15px 20px",cursor:"pointer",borderBottom:"1px solid #F1F5F9",transition:"background 150ms" }}
-                  onMouseEnter={e=>e.currentTarget.style.background="#F8FAFC"}
-                  onMouseLeave={e=>e.currentTarget.style.background="#fff"}>
-                  <div style={{ width:42,height:42,borderRadius:12,background:"#F0FDF4",display:"flex",alignItems:"center",justifyContent:"center",fontSize:20,flexShrink:0 }}>{item.icon}</div>
-                  <div style={{ flex:1 }}>
-                    <div style={{ fontWeight:700,fontSize:14,color:"#0F172A" }}>{item.label}</div>
-                    <div style={{ fontSize:11,color:"#94A3B8",marginTop:2 }}>{item.sub}</div>
-                  </div>
-                  <svg style={{ flexShrink:0,color:"#CBD5E1" }} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="9 18 15 12 9 6"/></svg>
-                </div>
-              ))}
-            </div>
-            <div style={{ padding:"16px 20px",borderTop:"1px solid #F1F5F9",textAlign:"center" }}>
-              <div style={{ fontSize:11,color:"#94A3B8" }}>B Mart — Grocery in 10 Min</div>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
@@ -1089,6 +1048,7 @@ export default function BMartApp() {
   const [history, setHistory] = useState([]);
   const [cart,  setCart]     = useState([]);
   const [cartOpen, setCartOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [user,  setUser]     = useState(null);
   const [orders,setOrders]   = useState([]);
   const scrollRef = useRef(null);
@@ -1108,7 +1068,7 @@ export default function BMartApp() {
   return (
     <div style={{ position:"relative",height:"100dvh",overflow:"hidden",display:"flex",flexDirection:"column",background:"#F8FAFC",fontFamily:"system-ui,-apple-system,sans-serif" }}>
       <style>{CSS}</style>
-      <Header {...pp} setCartOpen={setCartOpen} goBack={goBack} canGoBack={history.length>0} />
+      <Header {...pp} setCartOpen={setCartOpen} onMenuOpen={()=>setMenuOpen(true)} goBack={goBack} canGoBack={history.length>0} />
 
       {/* Scrollable content */}
       <div ref={scrollRef} className="bm-no-scroll" style={{ flex:1,overflowY:"auto" }}>
@@ -1123,6 +1083,47 @@ export default function BMartApp() {
         {page.type==="orders"   && <OrdersPage    orders={orders} nav={nav} onAdd={addToCart} />}
         {page.type==="admin"    && <AdminPage     nav={nav} />}
       </div>
+
+      {/* Nav Menu Drawer */}
+      {menuOpen && (
+        <div style={{ position:"absolute",inset:0,zIndex:200,display:"flex",justifyContent:"flex-end" }}>
+          <div onClick={()=>setMenuOpen(false)} style={{ position:"absolute",inset:0,background:"rgba(0,0,0,.45)" }} />
+          <div style={{ position:"relative",width:285,background:"#fff",height:"100%",display:"flex",flexDirection:"column",boxShadow:"-4px 0 28px rgba(0,0,0,.18)" }}>
+            <div style={{ padding:"22px 20px 18px",background:EM,display:"flex",alignItems:"center",justifyContent:"space-between" }}>
+              <div style={{ display:"flex",alignItems:"center",gap:11 }}>
+                <div style={{ width:44,height:44,borderRadius:"50%",background:"rgba(255,255,255,.22)",display:"flex",alignItems:"center",justifyContent:"center",fontWeight:900,fontSize:22,color:"#fff" }}>B</div>
+                <div>
+                  <div style={{ fontWeight:800,fontSize:15,color:"#fff" }}>B Mart</div>
+                  <div style={{ fontSize:11,color:"rgba(255,255,255,.75)" }}>Grocery in 10 Min</div>
+                </div>
+              </div>
+              <button onClick={()=>setMenuOpen(false)} style={{ background:"rgba(255,255,255,.2)",border:"none",borderRadius:8,width:30,height:30,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",fontSize:17,fontWeight:700 }}>✕</button>
+            </div>
+            <div style={{ flex:1,overflowY:"auto",padding:"8px 0" }}>
+              {[
+                { icon:"👤", label:"User Profile",  sub:"Name, address & contact", fn:()=>{nav({type:"profile"});setMenuOpen(false);} },
+                { icon:"📦", label:"Order History",  sub:"Track your past orders",  fn:()=>{nav({type:"orders"});setMenuOpen(false);} },
+                { icon:"🛡",  label:"Admin Panel",   sub:"B Mart owner dashboard",  fn:()=>{nav({type:"admin"});setMenuOpen(false);} },
+              ].map((item,i)=>(
+                <div key={i} onClick={item.fn}
+                  style={{ display:"flex",alignItems:"center",gap:14,padding:"15px 20px",cursor:"pointer",borderBottom:"1px solid #F1F5F9",transition:"background 150ms" }}
+                  onMouseEnter={e=>e.currentTarget.style.background="#F8FAFC"}
+                  onMouseLeave={e=>e.currentTarget.style.background="#fff"}>
+                  <div style={{ width:42,height:42,borderRadius:12,background:"#F0FDF4",display:"flex",alignItems:"center",justifyContent:"center",fontSize:20,flexShrink:0 }}>{item.icon}</div>
+                  <div style={{ flex:1 }}>
+                    <div style={{ fontWeight:700,fontSize:14,color:"#0F172A" }}>{item.label}</div>
+                    <div style={{ fontSize:11,color:"#94A3B8",marginTop:2 }}>{item.sub}</div>
+                  </div>
+                  <svg style={{ flexShrink:0,color:"#CBD5E1" }} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+                </div>
+              ))}
+            </div>
+            <div style={{ padding:"16px 20px",borderTop:"1px solid #F1F5F9",textAlign:"center" }}>
+              <div style={{ fontSize:11,color:"#94A3B8" }}>B Mart — Grocery in 10 Min</div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Cart Overlay */}
       {cartOpen && <div onClick={()=>setCartOpen(false)} style={{ position:"absolute",inset:0,background:"rgba(0,0,0,.45)",zIndex:60 }} />}
