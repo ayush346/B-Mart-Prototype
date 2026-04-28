@@ -302,62 +302,58 @@ function Header({ cart, setCartOpen, user, setUser, nav, goBack, canGoBack }) {
   };
 
   return (
-    <div style={{ zIndex:40,background:"rgba(255,255,255,.95)",backdropFilter:"blur(20px)",borderBottom:"1px solid #E2E8F0",flexShrink:0,position:"relative" }}>
-      <div style={{ padding:"0 16px",height:62,display:"flex",alignItems:"center",gap:12 }}>
-        {/* Back */}
-        {canGoBack && (
-          <button onClick={goBack} style={{ background:"none",border:"none",cursor:"pointer",padding:"4px 6px",borderRadius:8,display:"flex",alignItems:"center",justifyContent:"center",color:"#0F172A",flexShrink:0 }} title="Go back">
+    <div style={{ zIndex:40,background:"rgba(255,255,255,.97)",backdropFilter:"blur(20px)",borderBottom:"1px solid #E2E8F0",flexShrink:0,position:"relative" }}>
+      {/* Row 1 — Logo + Icons */}
+      <div style={{ padding:"0 16px",height:54,display:"flex",alignItems:"center",gap:10 }}>
+        {canGoBack ? (
+          <button onClick={goBack} style={{ background:"none",border:"none",cursor:"pointer",padding:"4px",borderRadius:8,display:"flex",alignItems:"center",color:"#0F172A",flexShrink:0 }}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5"/><polyline points="12 19 5 12 12 5"/></svg>
           </button>
-        )}
-        {/* Logo */}
+        ) : null}
         <div onClick={()=>nav({type:"home"})} style={{ display:"flex",alignItems:"center",gap:7,cursor:"pointer",flexShrink:0 }}>
-          <div style={{ width:34,height:34,background:EM,borderRadius:9,display:"flex",alignItems:"center",justifyContent:"center",color:LM,fontWeight:900,fontSize:18 }}>B</div>
-          <span style={{ fontWeight:800,fontSize:18,color:"#0F172A" }}>Mart</span>
+          <div style={{ width:32,height:32,background:EM,borderRadius:8,display:"flex",alignItems:"center",justifyContent:"center",color:LM,fontWeight:900,fontSize:17 }}>B</div>
+          <span style={{ fontWeight:800,fontSize:17,color:"#0F172A" }}>Mart</span>
         </div>
-
-        {/* Search */}
-        <div style={{ flex:1,position:"relative" }}>
-          <div style={{ display:"flex",alignItems:"center",background:"#F8FAFC",borderRadius:11,border:"1.5px solid #E2E8F0",padding:"0 12px",gap:8,height:40,transition:"border 200ms" }}
-            onFocusCapture={e=>e.currentTarget.style.borderColor=LM}
-            onBlurCapture={e=>{e.currentTarget.style.borderColor="#E2E8F0";setTimeout(()=>setSugg([]),200);}}>
-            <span style={{ color:"#94A3B8",fontSize:14,flexShrink:0 }}>🔍</span>
-            <input data-testid="search-input" value={q}
-              onChange={e=>onSearch(e.target.value)}
-              onKeyDown={e=>{if(e.key==="Enter"&&q){nav({type:"search",q});setSugg([]);}}}
-              placeholder='Search "milk", "bread", "atta"...'
-              style={{ flex:1,border:"none",outline:"none",background:"transparent",fontSize:13,fontFamily:"inherit",height:"100%" }} />
-          </div>
-          {sugg.length>0 && (
-            <div style={{ position:"absolute",top:"calc(100% + 5px)",left:0,right:0,background:"#fff",borderRadius:11,boxShadow:"0 8px 32px rgba(0,0,0,.12)",border:"1px solid #E2E8F0",zIndex:100,overflow:"hidden" }}>
-              {sugg.map(p=>(
-                <div key={p.id} className="bm-dd-row" onClick={()=>{nav({type:"product",id:p.id});setSugg([]);setQ("");}}
-                  style={{ display:"flex",alignItems:"center",gap:10,padding:"8px 12px",cursor:"pointer",borderBottom:"1px solid #F8FAFC",transition:"background 150ms" }}>
-                  <img src={p.img} alt={p.name} style={{ width:34,height:34,borderRadius:7,objectFit:"cover",flexShrink:0 }} onError={e=>e.target.style.display="none"} />
-                  <div style={{ flex:1,overflow:"hidden" }}>
-                    <div style={{ fontSize:12,fontWeight:600,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap" }}>{p.name}</div>
-                    <div style={{ fontSize:10,color:"#94A3B8" }}>{p.w}</div>
-                  </div>
-                  <div style={{ fontWeight:800,fontSize:12,color:EM,flexShrink:0 }}>{Rs(p.price)}</div>
-                </div>
-              ))}
-            </div>
+        <div style={{ flex:1 }} />
+        {/* Cart icon */}
+        <button onClick={()=>setCartOpen(true)} style={{ position:"relative",background:"none",border:"none",cursor:"pointer",padding:"6px",borderRadius:10,display:"flex",alignItems:"center",justifyContent:"center",color:"#0F172A" }}>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          {cartCount>0 && (
+            <span style={{ position:"absolute",top:2,right:2,background:EM,color:"#fff",borderRadius:"50%",width:16,height:16,fontSize:9,fontWeight:900,display:"flex",alignItems:"center",justifyContent:"center",lineHeight:1 }}>{cartCount}</span>
           )}
+        </button>
+        {/* Hamburger */}
+        <button onClick={()=>setMenuOpen(true)} style={{ background:"none",border:"none",cursor:"pointer",padding:"6px",borderRadius:10,display:"flex",alignItems:"center",justifyContent:"center",color:"#0F172A" }}>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+      </div>
+      {/* Row 2 — Search bar */}
+      <div style={{ padding:"0 16px 10px",position:"relative" }}>
+        <div style={{ display:"flex",alignItems:"center",background:"#F8FAFC",borderRadius:11,border:"1.5px solid #E2E8F0",padding:"0 12px",gap:8,height:40,transition:"border 200ms" }}
+          onFocusCapture={e=>e.currentTarget.style.borderColor=LM}
+          onBlurCapture={e=>{e.currentTarget.style.borderColor="#E2E8F0";setTimeout(()=>setSugg([]),200);}}>
+          <span style={{ color:"#94A3B8",fontSize:14,flexShrink:0 }}>🔍</span>
+          <input data-testid="search-input" value={q}
+            onChange={e=>onSearch(e.target.value)}
+            onKeyDown={e=>{if(e.key==="Enter"&&q){nav({type:"search",q});setSugg([]);}}}
+            placeholder='Search "milk", "bread", "atta"...'
+            style={{ flex:1,border:"none",outline:"none",background:"transparent",fontSize:13,fontFamily:"inherit",height:"100%" }} />
         </div>
-
-        {/* Hamburger + Cart */}
-        <div style={{ display:"flex",alignItems:"center",gap:8,flexShrink:0 }}>
-          <button onClick={()=>setMenuOpen(true)}
-            style={{ background:"none",border:"none",cursor:"pointer",padding:"6px",borderRadius:8,display:"flex",alignItems:"center",justifyContent:"center",color:"#0F172A" }}>
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-          </button>
-          <button onClick={()=>setCartOpen(true)}
-            style={{ background:EM,color:"#fff",border:"none",borderRadius:18,padding:"7px 14px",fontWeight:700,fontSize:12,cursor:"pointer",display:"flex",alignItems:"center",gap:7,height:36 }}>
-            🛍
-            {cartCount>0 && <span style={{ background:LM,color:"#14532D",borderRadius:9,padding:"1px 7px",fontSize:10,fontWeight:900 }}>{cartCount}</span>}
-            <span style={{ display:"none" }}>Cart</span>
-          </button>
-        </div>
+        {sugg.length>0 && (
+          <div style={{ position:"absolute",top:"calc(100% - 2px)",left:16,right:16,background:"#fff",borderRadius:11,boxShadow:"0 8px 32px rgba(0,0,0,.12)",border:"1px solid #E2E8F0",zIndex:100,overflow:"hidden" }}>
+            {sugg.map(p=>(
+              <div key={p.id} className="bm-dd-row" onClick={()=>{nav({type:"product",id:p.id});setSugg([]);setQ("");}}
+                style={{ display:"flex",alignItems:"center",gap:10,padding:"8px 12px",cursor:"pointer",borderBottom:"1px solid #F8FAFC",transition:"background 150ms" }}>
+                <img src={p.img} alt={p.name} style={{ width:34,height:34,borderRadius:7,objectFit:"cover",flexShrink:0 }} onError={e=>e.target.style.display="none"} />
+                <div style={{ flex:1,overflow:"hidden" }}>
+                  <div style={{ fontSize:12,fontWeight:600,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap" }}>{p.name}</div>
+                  <div style={{ fontSize:10,color:"#94A3B8" }}>{p.w}</div>
+                </div>
+                <div style={{ fontWeight:800,fontSize:12,color:EM,flexShrink:0 }}>{Rs(p.price)}</div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
       {/* Side Menu Drawer */}
       {menuOpen && (
