@@ -458,14 +458,14 @@ function CartDrawer({ open, onClose, cart, onUpd, nav, cartTotal }) {
 function HomePage({ nav, cart, onAdd, onUpd }) {
   const topPicks = PRODS.filter(p=>p.id==="s1"||p.id==="bv1");
   const under99  = PRODS.filter(p=>p.price<100).slice(0,10);
-  const deals    = PRODS.filter(p=>off(p.price,p.mrp)>=15).slice(0,8);
+  const deals    = PRODS.filter(p=>p.id==="bt1"||p.id==="bt2");
   return (
     <div style={{ padding:"20px 16px" }}>
       <HeroBanner nav={nav} />
       <CategoryGrid nav={nav} />
       <ProductRow title="Top Picks for You"  sub="Handpicked, highly rated"    prods={topPicks} cart={cart} onAdd={onAdd} onUpd={onUpd} nav={nav} />
       <ProductRow title="Healthy"             sub="Great value, great taste"    prods={under99}  cart={cart} onAdd={onAdd} onUpd={onUpd} nav={nav} />
-      <ProductRow title="Deals & Offers"     sub="Today's biggest discounts"   prods={deals}    cart={cart} onAdd={onAdd} onUpd={onUpd} nav={nav} />
+      <ProductRow title="Selling Fast"        sub="Today's biggest discounts"   prods={deals}    cart={cart} onAdd={onAdd} onUpd={onUpd} nav={nav} />
     </div>
   );
 }
