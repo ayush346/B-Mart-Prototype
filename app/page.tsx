@@ -67,10 +67,6 @@ const CATS = [
   { slug:"cleaning",      name:"Cleaning & Home",      img:IMGS.cat_cleaning,bg:"#F0FDF4" },
   { slug:"personal-care", name:"Personal Care",        img:IMGS.cat_personal_care,   bg:"#FAF5FF" },
   { slug:"beauty",        name:"Beauty & Cosmetics",   img:IMGS.cat_beauty,bg:"#FFF1F2" },
-  { slug:"baby",          name:"Baby Care",            img:IMGS.cat_baby,   bg:"#EFF6FF" },
-  { slug:"pet",           name:"Pet Care",             img:IMGS.cat_pet,bg:"#F0FDF4" },
-  { slug:"electronics",   name:"Electronics",          img:IMGS.cat_electronics,bg:"#F1F5F9" },
-  { slug:"stationery",    name:"Stationery & Office",  img:IMGS.cat_stationery,bg:"#FAFAF9" },
 ];
 
 const PRODS = [
@@ -103,14 +99,6 @@ const PRODS = [
   { id:"pc2", name:"Colgate Toothpaste",   w:"200g",   price:89,   mrp:105,  img:"/colgate.jpg",     cat:"personal-care",brand:"Colgate",    r:4.6 },
   { id:"bt1", name:"Lakme Face Wash",      w:"100ml",  price:149,  mrp:175,  img:"/lakme.jpg",       cat:"beauty",       brand:"Lakme",      r:4.4 },
   { id:"bt2", name:"Nykaa Lipstick",       w:"4g",     price:199,  mrp:250,  img:"/nykaa.jpg",       cat:"beauty",       brand:"Nykaa",      r:4.3 },
-  { id:"bb1", name:"Pampers Diapers",      w:"M 20pcs",price:399,  mrp:499,  img:"/pampers.jpg",     cat:"baby",         brand:"P&G",       r:4.5 },
-  { id:"bb2", name:"Nestlé Cerelac",       w:"500g",   price:245,  mrp:290,  img:"/cerelac.jpg",     cat:"baby",         brand:"Nestlé",     r:4.6 },
-  { id:"pt1", name:"Pedigree Dog Food",    w:"400g",   price:199,  mrp:240,  img:"/pedigree.jpg",    cat:"pet",          brand:"Pedigree",   r:4.5 },
-  { id:"pt2", name:"Drools Cat Food",      w:"300g",   price:150,  mrp:180,  img:"/drools.jpg",      cat:"pet",          brand:"Drools",     r:4.4 },
-  { id:"el1", name:"boAt Airdopes 141",    w:"1 pc",   price:1299, mrp:2990, img:"/boat.jpg",        cat:"electronics",  brand:"boAt",       r:4.4 },
-  { id:"el2", name:"MI Power Bank 10000",  w:"1 pc",   price:999,  mrp:1499, img:"/powerbank.jpg",   cat:"electronics",  brand:"Xiaomi",     r:4.5 },
-  { id:"st1", name:"Classmate Notebook",   w:"172 pgs",price:45,   mrp:55,   img:"/notebook.jpg",    cat:"stationery",   brand:"ITC",        r:4.3 },
-  { id:"st2", name:"Reynolds Pens",        w:"Pack of 5",price:30, mrp:40,   img:"/reynolds.jpg",    cat:"stationery",   brand:"Reynolds",   r:4.4 },
 ];
 
 const BANNERS = [
