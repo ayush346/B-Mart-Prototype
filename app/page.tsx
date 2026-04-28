@@ -464,7 +464,7 @@ function HomePage({ nav, cart, onAdd, onUpd }) {
       <HeroBanner nav={nav} />
       <CategoryGrid nav={nav} />
       <ProductRow title="Top Picks for You"  sub="Handpicked, highly rated"    prods={topPicks} cart={cart} onAdd={onAdd} onUpd={onUpd} nav={nav} />
-      <ProductRow title="Under ₹99"          sub="Great value, great taste"    prods={under99}  cart={cart} onAdd={onAdd} onUpd={onUpd} nav={nav} />
+      <ProductRow title="Healthy"             sub="Great value, great taste"    prods={under99}  cart={cart} onAdd={onAdd} onUpd={onUpd} nav={nav} />
       <ProductRow title="Deals & Offers"     sub="Today's biggest discounts"   prods={deals}    cart={cart} onAdd={onAdd} onUpd={onUpd} nav={nav} />
     </div>
   );
