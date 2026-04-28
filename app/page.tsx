@@ -650,7 +650,7 @@ function LoginPage({ setUser, nav }) {
 }
 
 function CheckoutPage({ cart, cartTotal, user, nav, onOrder }) {
-  const [addr,setAddr] = useState({ label:"Home",line1:"123, Brigade Road",city:"Bangalore",pin:"560001",phone:"9876543210" });
+  const [addr,setAddr] = useState({ label:"",line1:"",city:"",pin:"",phone:"" });
   const [pay,setPay] = useState("cod");
   const [placing,setPlacing] = useState(false);
   const del = cartTotal>=199?0:25, total=cartTotal+del;
