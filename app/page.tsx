@@ -289,7 +289,7 @@ function CategoryGrid({ nav }) {
 function Header({ cart, setCartOpen, user, setUser, nav, goBack, canGoBack }) {
   const [q, setQ] = useState("");
   const [sugg, setSugg] = useState([]);
-  const [profOpen, setProfOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const debRef = useRef(null);
   const cartCount = cart.reduce((s,i)=>s+i.qty,0);
 
@@ -345,39 +345,12 @@ function Header({ cart, setCartOpen, user, setUser, nav, goBack, canGoBack }) {
           )}
         </div>
 
-        {/* Auth + Cart */}
+        {/* Hamburger + Cart */}
         <div style={{ display:"flex",alignItems:"center",gap:8,flexShrink:0 }}>
-          {user ? (
-            <div style={{ position:"relative" }}>
-              <div onClick={()=>setProfOpen(o=>!o)}
-                style={{ width:32,height:32,borderRadius:"50%",background:EM,color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",fontWeight:800,cursor:"pointer",fontSize:13 }}>
-                {user.name[0].toUpperCase()}
-              </div>
-              {profOpen && (
-                <div style={{ position:"absolute",right:0,top:"calc(100% + 6px)",background:"#fff",borderRadius:12,boxShadow:"0 8px 32px rgba(0,0,0,.14)",border:"1px solid #E2E8F0",minWidth:160,zIndex:200,overflow:"hidden" }}>
-                  <div style={{ padding:"10px 14px",borderBottom:"1px solid #F1F5F9" }}>
-                    <div style={{ fontWeight:700,fontSize:12 }}>{user.name}</div>
-                    <div style={{ fontSize:10,color:"#94A3B8" }}>{user.email}</div>
-                  </div>
-                  {[
-                    { label:"📦 My Orders", fn:()=>{nav({type:"orders"});setProfOpen(false);} },
-                    ...(user.isAdmin?[{ label:"🛡 Admin", fn:()=>{nav({type:"admin"});setProfOpen(false);} }]:[]),
-                    { label:"🚪 Logout", fn:()=>{setUser(null);setProfOpen(false);}, red:true },
-                  ].map((item,i)=>(
-                    <div key={i} onClick={item.fn}
-                      style={{ padding:"9px 14px",cursor:"pointer",fontSize:12,color:item.red?"#EF4444":"#0F172A",borderTop:i===0?"none":"1px solid #F8FAFC",display:"flex",alignItems:"center",gap:8 }}
-                      onMouseEnter={e=>e.currentTarget.style.background=item.red?"#FFF5F5":"#F8FAFC"}
-                      onMouseLeave={e=>e.currentTarget.style.background="#fff"}>
-                      {item.label}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          ) : (
-            <button onClick={()=>nav({type:"login"})}
-              style={{ border:`1.5px solid ${EM}`,background:"#fff",color:EM,borderRadius:18,padding:"6px 14px",fontWeight:700,fontSize:12,cursor:"pointer" }}>Login</button>
-          )}
+          <button onClick={()=>setMenuOpen(true)}
+            style={{ background:"none",border:"none",cursor:"pointer",padding:"6px",borderRadius:8,display:"flex",alignItems:"center",justifyContent:"center",color:"#0F172A" }}>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
           <button onClick={()=>setCartOpen(true)}
             style={{ background:EM,color:"#fff",border:"none",borderRadius:18,padding:"7px 14px",fontWeight:700,fontSize:12,cursor:"pointer",display:"flex",alignItems:"center",gap:7,height:36 }}>
             🛍
@@ -386,6 +359,46 @@ function Header({ cart, setCartOpen, user, setUser, nav, goBack, canGoBack }) {
           </button>
         </div>
       </div>
+      {/* Side Menu Drawer */}
+      {menuOpen && (
+        <div style={{ position:"fixed",inset:0,zIndex:500,display:"flex",justifyContent:"flex-end" }}>
+          <div onClick={()=>setMenuOpen(false)} style={{ position:"absolute",inset:0,background:"rgba(0,0,0,.45)" }} />
+          <div style={{ position:"relative",width:285,background:"#fff",height:"100%",display:"flex",flexDirection:"column",boxShadow:"-4px 0 28px rgba(0,0,0,.18)" }}>
+            <div style={{ padding:"22px 20px 18px",background:EM,display:"flex",alignItems:"center",justifyContent:"space-between" }}>
+              <div style={{ display:"flex",alignItems:"center",gap:11 }}>
+                <div style={{ width:44,height:44,borderRadius:"50%",background:"rgba(255,255,255,.22)",display:"flex",alignItems:"center",justifyContent:"center",fontWeight:900,fontSize:22,color:"#fff" }}>B</div>
+                <div>
+                  <div style={{ fontWeight:800,fontSize:15,color:"#fff" }}>B Mart</div>
+                  <div style={{ fontSize:11,color:"rgba(255,255,255,.75)" }}>Grocery in 10 Min</div>
+                </div>
+              </div>
+              <button onClick={()=>setMenuOpen(false)} style={{ background:"rgba(255,255,255,.2)",border:"none",borderRadius:8,width:30,height:30,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",fontSize:17,fontWeight:700 }}>✕</button>
+            </div>
+            <div style={{ flex:1,overflowY:"auto",padding:"8px 0" }}>
+              {[
+                { icon:"👤", label:"User Profile",  sub:"Name, address & contact", fn:()=>{nav({type:"profile"});setMenuOpen(false);} },
+                { icon:"📦", label:"Order History",  sub:"Track your past orders",  fn:()=>{nav({type:"orders"});setMenuOpen(false);} },
+                { icon:"🛡",  label:"Admin Panel",   sub:"B Mart owner dashboard",  fn:()=>{nav({type:"admin"});setMenuOpen(false);} },
+              ].map((item,i)=>(
+                <div key={i} onClick={item.fn}
+                  style={{ display:"flex",alignItems:"center",gap:14,padding:"15px 20px",cursor:"pointer",borderBottom:"1px solid #F1F5F9",transition:"background 150ms" }}
+                  onMouseEnter={e=>e.currentTarget.style.background="#F8FAFC"}
+                  onMouseLeave={e=>e.currentTarget.style.background="#fff"}>
+                  <div style={{ width:42,height:42,borderRadius:12,background:"#F0FDF4",display:"flex",alignItems:"center",justifyContent:"center",fontSize:20,flexShrink:0 }}>{item.icon}</div>
+                  <div style={{ flex:1 }}>
+                    <div style={{ fontWeight:700,fontSize:14,color:"#0F172A" }}>{item.label}</div>
+                    <div style={{ fontSize:11,color:"#94A3B8",marginTop:2 }}>{item.sub}</div>
+                  </div>
+                  <svg style={{ flexShrink:0,color:"#CBD5E1" }} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+                </div>
+              ))}
+            </div>
+            <div style={{ padding:"16px 20px",borderTop:"1px solid #F1F5F9",textAlign:"center" }}>
+              <div style={{ fontSize:11,color:"#94A3B8" }}>B Mart — Grocery in 10 Min</div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -612,6 +625,54 @@ function ProductPage({ id, nav, cart, onAdd, onUpd }) {
         </div>
       </div>
       {related.length>0 && <ProductRow title="Related Products" prods={related} cart={cart} onAdd={onAdd} onUpd={onUpd} nav={nav} />}
+    </div>
+  );
+}
+
+function ProfilePage({ user, setUser, nav }) {
+  const [name,    setName]    = useState(user?.name    || "");
+  const [phone,   setPhone]   = useState(user?.phone   || "");
+  const [address, setAddress] = useState(user?.address || "");
+  const [saved,   setSaved]   = useState(false);
+  const save = () => {
+    setUser(prev=>({...(prev||{}),name:name||"B Mart User",phone,address}));
+    setSaved(true);
+    setTimeout(()=>setSaved(false),2000);
+  };
+  const inp = { width:"100%",border:"1.5px solid #E2E8F0",borderRadius:10,padding:"10px 12px",fontSize:13,outline:"none",fontFamily:"inherit",boxSizing:"border-box" as const };
+  return (
+    <div style={{ padding:"20px 16px" }}>
+      <h2 style={{ fontWeight:800,fontSize:20,color:"#0F172A",margin:"0 0 20px" }}>User Profile</h2>
+      <div style={{ background:"#fff",borderRadius:16,border:"1px solid #E2E8F0",overflow:"hidden" }}>
+        <div style={{ background:EM,padding:"24px 20px",display:"flex",alignItems:"center",gap:14 }}>
+          <div style={{ width:54,height:54,borderRadius:"50%",background:"rgba(255,255,255,.22)",display:"flex",alignItems:"center",justifyContent:"center",fontWeight:900,fontSize:26,color:"#fff",flexShrink:0 }}>
+            {(name[0]||"U").toUpperCase()}
+          </div>
+          <div>
+            <div style={{ fontWeight:800,fontSize:16,color:"#fff" }}>{name||"Your Name"}</div>
+            <div style={{ fontSize:12,color:"rgba(255,255,255,.75)",marginTop:3 }}>B Mart Member</div>
+          </div>
+        </div>
+        <div style={{ padding:"20px 16px",display:"flex",flexDirection:"column",gap:14 }}>
+          <div>
+            <div style={{ fontSize:11,fontWeight:700,color:"#64748B",marginBottom:6,textTransform:"uppercase",letterSpacing:"0.05em" }}>Full Name</div>
+            <input value={name} onChange={e=>setName(e.target.value)} placeholder="Enter your name" style={inp} />
+          </div>
+          <div>
+            <div style={{ fontSize:11,fontWeight:700,color:"#64748B",marginBottom:6,textTransform:"uppercase",letterSpacing:"0.05em" }}>Contact Number</div>
+            <input value={phone} onChange={e=>setPhone(e.target.value)} placeholder="Enter phone number" type="tel" style={inp} />
+          </div>
+          <div>
+            <div style={{ fontSize:11,fontWeight:700,color:"#64748B",marginBottom:6,textTransform:"uppercase",letterSpacing:"0.05em" }}>Delivery Address</div>
+            <textarea value={address} onChange={e=>setAddress(e.target.value)} placeholder="Enter your full address" rows={3}
+              style={{ ...inp,resize:"none",lineHeight:1.5 }} />
+          </div>
+          <button onClick={save}
+            style={{ background:saved?"#10B981":EM,color:"#fff",border:"none",borderRadius:12,padding:"13px 20px",fontWeight:700,fontSize:14,cursor:"pointer",transition:"background 300ms" }}>
+            {saved?"✓ Saved!":"Save Profile"}
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
@@ -1056,6 +1117,7 @@ export default function BMartApp() {
       {/* Scrollable content */}
       <div ref={scrollRef} className="bm-no-scroll" style={{ flex:1,overflowY:"auto" }}>
         {page.type==="home"     && <HomePage      {...pp} />}
+        {page.type==="profile"  && <ProfilePage    user={user} setUser={setUser} nav={nav} />}
         {page.type==="login"    && <LoginPage     setUser={setUser} nav={nav} />}
         {page.type==="category" && <CategoryPage  slug={page.slug} sub={page.sub} {...pp} />}
         {page.type==="product"  && <ProductPage   id={page.id}     {...pp} />}
