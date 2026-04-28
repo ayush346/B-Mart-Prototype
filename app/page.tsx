@@ -456,7 +456,7 @@ function CartDrawer({ open, onClose, cart, onUpd, nav, cartTotal }) {
 // ── Pages ──────────────────────────────────────────────────────────────
 
 function HomePage({ nav, cart, onAdd, onUpd }) {
-  const topPicks = PRODS.filter(p=>p.r>=4.5).slice(0,8);
+  const topPicks = PRODS.filter(p=>p.id==="s1"||p.id==="bv1");
   const under99  = PRODS.filter(p=>p.price<100).slice(0,10);
   const deals    = PRODS.filter(p=>off(p.price,p.mrp)>=15).slice(0,8);
   return (
