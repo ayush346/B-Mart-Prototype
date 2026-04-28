@@ -236,25 +236,27 @@ function HeroBanner({ nav }) {
   }, []);
   const b = BANNERS[idx];
   return (
-    <div style={{ borderRadius:20,overflow:"hidden",position:"relative",height:210,marginBottom:28,cursor:"pointer",flexShrink:0 }}
-      onClick={()=>nav({type:"home"})}>
-      <img src={b.img} alt="Hero Banner" loading="lazy"
-        style={{ width:"100%",height:"100%",objectFit:"cover",position:"absolute",inset:0 }}
-        onError={e=>{e.target.style.display="none";e.target.parentElement.style.background=EM;}} />
-      <div style={{ position:"absolute",inset:0,background:"linear-gradient(to top,rgba(0,0,0,.55) 0%,rgba(0,0,0,.1) 50%,transparent 100%)" }} />
-      <div style={{ position:"absolute",inset:0,padding:"22px 28px",display:"flex",flexDirection:"column",justifyContent:"flex-end" }}>
-        <div className="bm-pulse" style={{ background:LM,color:"#14532D",fontSize:10,fontWeight:800,padding:"3px 10px",borderRadius:18,display:"inline-flex",alignItems:"center",gap:4,marginBottom:12,width:"fit-content" }}>⚡ 10 MIN DELIVERY</div>
-        <h2 style={{ fontWeight:900,fontSize:26,color:"#fff",lineHeight:1.15,margin:"0 0 8px",whiteSpace:"pre-line" }}>{b.title}</h2>
-        <p style={{ color:"rgba(255,255,255,.85)",fontSize:13,margin:"0 0 16px" }}>{b.sub}</p>
-        <div onClick={e=>e.stopPropagation()}>
-          <button style={{ background:"#fff",color:EM,border:"none",borderRadius:20,padding:"9px 22px",fontWeight:800,fontSize:13,cursor:"pointer" }}>{b.cta} →</button>
+    <div style={{ borderRadius:22,overflow:"hidden",marginBottom:28,boxShadow:"0 4px 24px rgba(0,0,0,.10)",background:"#fff",flexShrink:0 }}>
+      {/* Image */}
+      <div style={{ position:"relative",height:190,overflow:"hidden" }}>
+        <img src={b.img} alt="Hero Banner" loading="lazy"
+          style={{ width:"100%",height:"100%",objectFit:"cover",display:"block",transition:"opacity 400ms" }}
+          onError={e=>{e.target.style.display="none";e.target.parentElement.style.background=EM;}} />
+        {/* Dot indicators on image */}
+        <div style={{ position:"absolute",bottom:10,left:"50%",transform:"translateX(-50%)",display:"flex",gap:5,alignItems:"center" }}>
+          {BANNERS.map((_,i)=>(
+            <button key={i} onClick={()=>setIdx(i)}
+              style={{ width:i===idx?20:5,height:5,borderRadius:3,background:i===idx?"#fff":"rgba(255,255,255,.5)",border:"none",cursor:"pointer",transition:"width 300ms",padding:0 }} />
+          ))}
         </div>
       </div>
-      <div style={{ position:"absolute",bottom:14,left:"50%",transform:"translateX(-50%)",display:"flex",gap:5,alignItems:"center" }}>
-        {BANNERS.map((_,i)=>(
-          <button key={i} onClick={e=>{e.stopPropagation();setIdx(i);}}
-            style={{ width:i===idx?22:5,height:5,borderRadius:3,background:i===idx?LM:"rgba(255,255,255,.5)",border:"none",cursor:"pointer",transition:"width 300ms",padding:0 }} />
-        ))}
+      {/* Text panel */}
+      <div style={{ padding:"14px 18px 18px",background:"#fff" }}>
+        <div className="bm-pulse" style={{ background:LM,color:"#14532D",fontSize:10,fontWeight:800,padding:"3px 10px",borderRadius:18,display:"inline-flex",alignItems:"center",gap:4,marginBottom:10,width:"fit-content" }}>⚡ 10 MIN DELIVERY</div>
+        <h2 style={{ fontWeight:900,fontSize:20,color:"#0F172A",lineHeight:1.2,margin:"0 0 5px",whiteSpace:"pre-line" }}>{b.title}</h2>
+        <p style={{ color:"#64748B",fontSize:12,margin:"0 0 13px",lineHeight:1.5 }}>{b.sub}</p>
+        <button onClick={()=>nav({type:"home"})}
+          style={{ background:EM,color:"#fff",border:"none",borderRadius:20,padding:"9px 22px",fontWeight:800,fontSize:13,cursor:"pointer" }}>{b.cta} →</button>
       </div>
     </div>
   );
